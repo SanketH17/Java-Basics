@@ -1,0 +1,82 @@
+Plan :
+
+-- Complete Spring Security Thoroughly next two/three days
+
+-- 2 Simple projects on Springboot for practice - https://www.javaguides.net/2018/10/free-open-source-projects-using-spring-boot.html
+
+-- Start Core Java from (dilip it academy) - 1 month
+
+-- Core Java Project - https://www.youtube.com/watch?v=HEYfJ3qmGUU&list=PLg04ndlgHMlMQNCwslAtWHVLfYaO_AOWS&index=10
+
+-- Springboot Revision (2/3 Days) with project -> Faizal Memon  : https://www.youtube.com/watch?v=nJyfLqFpbp4&list=PLg04ndlgHMlMQNCwslAtWHVLfYaO_AOWS&index=31&pp=iAQB0gcJCdkKAYcqIYzv
+
+-- Microservices (1/2 weeks)
+
+-- Complete Food Delivery App(frontend + backend) - https://www.youtube.com/watch?v=Tk_txz1fhHo
+
+-- Kafka + CI/CD 
+=========================================================================================================================================================================
+
+Spring Security - 4 Days
+Spring Cloud -
+Microservices + Docker & Kubernetes for microservices - one week
+Apache Kafka - https://youtu.be/ei6fK9StzMM?si=6mjdGGSCCTBSJUD8
+CI/CD pipelines (basics) https://youtu.be/gLptmcuCx6Q?si=krFmSSnXR0nrM-uN
+=========================================================================================================================================================================
+SPRINGBOOT PROJECTS
+Complete Food Delivery App(frontend + backend) - https://www.youtube.com/watch?v=Tk_txz1fhHo
+Core Java Project - Banking System - https://www.youtube.com/watch?v=HEYfJ3qmGUU&list=PLg04ndlgHMlMQNCwslAtWHVLfYaO_AOWS&index=10
+
+=========================================================================================================================================================================
+Core Java - One Month
+
+Collections Framework
+
+
+2. Functional Programming
+	Lambda Expressions
+	Stream API
+	Functional Interfaces
+	Method References
+	Optional class
+	Date & Time API (LocalDate, LocalDateTime)
+
+
+3. Wrapper Classes
+
+4. Multithreading & Concurrency ⚡
+Thread creation (Runnable, Thread)
+Synchronization
+volatile
+synchronized keyword
+Executor framework
+Race conditions & deadlocks
+
+
+5. Exception Handling
+Must know:
+Checked vs Unchecked exceptions
+try-catch-finally
+throw vs throws
+Custom exceptions
+
+6. Java Memory Management (JVM, Heap, Stack)
+Must know:
+Heap vs Stack
+Garbage Collection
+Object creation lifecycle
+String pool
+Example Qn:
+Why are Strings immutable?
+===========================================================================================
+
+Response From Pallavi (Job Switch)
+Core Java
+ Collections
+ Java 8 features
+ Stream api
+ Functional interface
+ Lambda expressions
+ Multi threading
+ Exception handling
+ Optional classes
