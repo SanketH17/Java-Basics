@@ -534,3 +534,733 @@ Java throws a **ClassCastException** (or won't know how to compare the objects),
 - `Collections.sort()` and `Arrays.sort()` use `compareTo()` to arrange objects.
 - Return a **negative** value if the current object should come first, **zero** if both are equal, and a **positive** value if it should come later.
 - Prefer `Integer.compare()`, `Double.compare()`, etc., over subtraction for safer comparisons.
+
+
+---
+
+
+# Comparator in Java (Simple Explanation)
+
+## What is Comparator?
+
+Think of **Comparator** as an **external comparison rule**.
+
+With **Comparable**, the object says:
+
+> "Compare me using this rule."
+
+With **Comparator**, **you** say:
+
+> "Today, compare these objects using this rule."
+
+This means **Comparator allows multiple ways to sort the same object.**
+
+---
+
+# Real-Life Example
+
+Suppose you have a list of students.
+
+```text
+Rahul   90   22
+Amit    75   20
+Neha    90   19
+```
+
+You can arrange them by:
+
+- Name
+- Marks
+- Age
+
+Question:
+
+**Which one is the correct sorting?**
+
+Answer:
+
+**All of them are correct!**
+
+It depends on what you want.
+
+This is exactly why Comparator exists.
+
+---
+
+# Why do we need Comparator?
+
+Suppose our Student class is:
+
+```java
+class Student {
+    int id;
+    String name;
+    int marks;
+    int age;
+}
+```
+
+Today you want to sort by marks.
+
+Tomorrow by age.
+
+Next week by name.
+
+Can Comparable do this?
+
+No.
+
+Comparable supports **only one default sorting rule.**
+
+Comparator lets us create **multiple sorting rules** without changing the Student class.
+
+---
+
+# Comparator Interface
+
+```java
+public interface Comparator<T> {
+
+    int compare(T o1, T o2);
+}
+```
+
+It has only one method:
+
+```java
+compare()
+```
+
+---
+
+# How compare() Works
+
+Suppose Java compares
+
+```text
+Student A
+
+with
+
+Student B
+```
+
+The compare() method returns
+
+## Negative
+
+First object comes before second.
+
+```text
+return -1
+```
+
+---
+
+## Zero
+
+Both are equal.
+
+```text
+return 0
+```
+
+---
+
+## Positive
+
+First object comes after second.
+
+```text
+return 1
+```
+
+---
+
+# Easy Way to Remember
+
+```text
+compare(obj1, obj2)
+
+Negative
+↓
+
+obj1 comes BEFORE obj2
+
+----------------------------
+
+Zero
+↓
+
+Both are equal
+
+----------------------------
+
+Positive
+↓
+
+obj1 comes AFTER obj2
+```
+
+---
+
+# Our Student Class
+
+```java
+class Student {
+
+    int id;
+    String name;
+    int marks;
+    int age;
+
+    Student(int id, String name, int marks, int age) {
+        this.id = id;
+        this.name = name;
+        this.marks = marks;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return id + " " + name + " " + marks + " " + age;
+    }
+}
+```
+
+---
+
+# Our Student List
+
+```java
+List<Student> students = Arrays.asList(
+
+        new Student(101, "Rahul", 90, 22),
+
+        new Student(102, "Amit", 75, 20),
+
+        new Student(103, "Neha", 90, 19),
+
+        new Student(104, "Priya", 60, 21)
+
+);
+```
+
+Current List
+
+```text
+101 Rahul 90 22
+102 Amit 75 20
+103 Neha 90 19
+104 Priya 60 21
+```
+
+---
+
+# Example 1 : Sort by Marks
+
+## Step 1
+
+Create Comparator
+
+```java
+Comparator<Student> marksComparator = new Comparator<Student>() {
+
+    @Override
+    public int compare(Student s1, Student s2) {
+
+        return Integer.compare(s1.marks, s2.marks);
+
+    }
+
+};
+```
+
+---
+
+## Step 2
+
+Pass it to sort()
+
+```java
+Collections.sort(students, marksComparator);
+```
+
+---
+
+## Output
+
+```text
+104 Priya 60 21
+
+102 Amit 75 20
+
+101 Rahul 90 22
+
+103 Neha 90 19
+```
+
+---
+
+# Let's Understand Every Comparison
+
+Current List
+
+```text
+Rahul 90
+
+Amit 75
+
+Neha 90
+
+Priya 60
+```
+
+Java internally does comparisons like this.
+
+---
+
+## Comparison 1
+
+```text
+Rahul (90)
+
+Amit (75)
+```
+
+Java calls
+
+```java
+compare(Rahul, Amit)
+```
+
+Our method
+
+```java
+Integer.compare(90,75)
+```
+
+returns
+
+```text
+1
+```
+
+Positive means
+
+```text
+Rahul comes AFTER Amit
+```
+
+---
+
+## Comparison 2
+
+```text
+Amit (75)
+
+Priya (60)
+```
+
+Java calls
+
+```java
+compare(Amit, Priya)
+```
+
+returns
+
+```java
+Integer.compare(75,60)
+```
+
+returns
+
+```text
+1
+```
+
+Again
+
+```text
+Amit comes AFTER Priya
+```
+
+---
+
+## Comparison 3
+
+```text
+Rahul (90)
+
+Neha (90)
+```
+
+Java calls
+
+```java
+compare(Rahul, Neha)
+```
+
+returns
+
+```java
+Integer.compare(90,90)
+```
+
+returns
+
+```text
+0
+```
+
+Both have equal marks.
+
+---
+
+Eventually Java arranges them as
+
+```text
+60
+
+↓
+
+75
+
+↓
+
+90
+
+↓
+
+90
+```
+
+---
+
+# Example 2 : Sort by Name
+
+Now suppose we want alphabetical order.
+
+Create another Comparator.
+
+```java
+Comparator<Student> nameComparator = new Comparator<Student>() {
+
+    @Override
+    public int compare(Student s1, Student s2) {
+
+        return s1.name.compareTo(s2.name);
+
+    }
+
+};
+```
+
+Notice something interesting.
+
+We are using
+
+```java
+compareTo()
+```
+
+Why?
+
+Because **String already implements Comparable.**
+
+---
+
+Now
+
+```java
+Collections.sort(students, nameComparator);
+```
+
+Output
+
+```text
+Amit
+
+Neha
+
+Priya
+
+Rahul
+```
+
+---
+
+# Let's See One Comparison
+
+Java compares
+
+```text
+Rahul
+
+Amit
+```
+
+Calls
+
+```java
+compare(Rahul, Amit)
+```
+
+Inside
+
+```java
+Rahul.compareTo(Amit)
+```
+
+returns
+
+Positive
+
+because
+
+```text
+R comes after A
+```
+
+Therefore
+
+```text
+Amit comes first
+```
+
+---
+
+# Example 3 : Sort by Age
+
+Create another Comparator
+
+```java
+Comparator<Student> ageComparator = new Comparator<Student>() {
+
+    @Override
+    public int compare(Student s1, Student s2) {
+
+        return Integer.compare(s1.age, s2.age);
+
+    }
+
+};
+```
+
+Now
+
+```java
+Collections.sort(students, ageComparator);
+```
+
+Output
+
+```text
+Neha 19
+
+Amit 20
+
+Priya 21
+
+Rahul 22
+```
+
+---
+
+# Three Different Sortings
+
+Same Student objects
+
+```text
+Rahul
+
+Amit
+
+Neha
+
+Priya
+```
+
+---
+
+Sort by Marks
+
+```text
+Priya
+
+Amit
+
+Rahul
+
+Neha
+```
+
+---
+
+Sort by Name
+
+```text
+Amit
+
+Neha
+
+Priya
+
+Rahul
+```
+
+---
+
+Sort by Age
+
+```text
+Neha
+
+Amit
+
+Priya
+
+Rahul
+```
+
+Same objects.
+
+Different Comparator.
+
+Different result.
+
+---
+
+# Lambda Version (Java 8+)
+
+Instead of writing
+
+```java
+Comparator<Student> marksComparator = new Comparator<Student>() {
+
+    @Override
+    public int compare(Student s1, Student s2) {
+
+        return Integer.compare(s1.marks, s2.marks);
+
+    }
+
+};
+```
+
+we can write
+
+```java
+Comparator<Student> marksComparator =
+        (s1, s2) -> Integer.compare(s1.marks, s2.marks);
+```
+
+Even shorter
+
+```java
+students.sort(
+        Comparator.comparingInt(student -> student.marks)
+);
+```
+
+---
+
+# Descending Order
+
+Ascending
+
+```java
+Integer.compare(s1.marks, s2.marks)
+```
+
+Descending
+
+```java
+Integer.compare(s2.marks, s1.marks)
+```
+
+Or
+
+```java
+students.sort(
+        Comparator.comparingInt((Student s) -> s.marks)
+                  .reversed()
+);
+```
+
+---
+
+# Comparable vs Comparator
+
+| Comparable | Comparator |
+|------------|------------|
+| Inside the class | Outside the class |
+| One default sorting rule | Multiple sorting rules |
+| Method is `compareTo()` | Method is `compare()` |
+| Class must implement Comparable | No need to modify the class |
+| Used for natural ordering | Used for custom ordering |
+
+---
+
+# When Should We Use Comparator?
+
+Use Comparator when:
+
+- You need more than one sorting rule.
+- You cannot modify the class.
+- You want custom sorting.
+- You want temporary sorting.
+
+---
+
+# Interview Questions
+
+## 1. What is Comparator?
+
+**Answer:**
+
+Comparator is an interface used to define **custom sorting logic** outside the class. It allows multiple ways to sort the same objects.
+
+---
+
+## 2. Why do we use Comparator?
+
+**Answer:**
+
+We use Comparator when we want different sorting orders, such as sorting students by marks, age, or name.
+
+---
+
+## 3. Which method does Comparator provide?
+
+```java
+compare(T o1, T o2)
+```
+
+---
+
+## 4. What does compare() return?
+
+- Negative → First object comes before the second.
+- Zero → Both objects are equal.
+- Positive → First object comes after the second.
+
+---
+
+## 5. Can we have multiple Comparators for one class?
+
+**Answer:**
+
+Yes. That's the main advantage of Comparator. We can create any number of Comparator objects for different sorting rules.
+
+---
+
+# Summary
+
+- Comparator is used for **custom sorting**.
+- It is defined **outside** the class.
+- It has one method: `compare()`.
+- One class can have multiple Comparator implementations.
+- It is commonly used with `Collections.sort()`, `List.sort()`, and Java Streams.
+- From Java 8 onwards, Comparators are usually written using **lambda expressions** and `Comparator.comparing()`.
