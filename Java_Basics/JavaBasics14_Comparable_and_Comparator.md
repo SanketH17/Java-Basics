@@ -1264,3 +1264,482 @@ Yes. That's the main advantage of Comparator. We can create any number of Compar
 - One class can have multiple Comparator implementations.
 - It is commonly used with `Collections.sort()`, `List.sort()`, and Java Streams.
 - From Java 8 onwards, Comparators are usually written using **lambda expressions** and `Comparator.comparing()`.
+
+
+---
+
+# Complete Comparator Example (Step-by-Step)
+
+In this example, we'll:
+
+1. Create a `Student` class.
+2. Create a list of students.
+3. Sort the same list by:
+   - Marks
+   - Name
+   - Age
+
+---
+
+# Step 1: Student Class
+
+```java
+class Student {
+
+    int id;
+    String name;
+    int marks;
+    int age;
+
+    Student(int id, String name, int marks, int age) {
+        this.id = id;
+        this.name = name;
+        this.marks = marks;
+        this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return id + " " + name + " " + marks + " " + age;
+    }
+}
+```
+
+---
+
+# Step 2: Main Program
+
+```java
+import java.util.*;
+
+public class ComparatorDemo {
+
+    public static void main(String[] args) {
+
+        List<Student> students = new ArrayList<>();
+
+        students.add(new Student(101, "Rahul", 90, 22));
+        students.add(new Student(102, "Amit", 75, 20));
+        students.add(new Student(103, "Neha", 90, 19));
+        students.add(new Student(104, "Priya", 60, 21));
+
+        System.out.println("Original List");
+        System.out.println(students);
+
+        // Sort by Marks
+        Comparator<Student> marksComparator = new Comparator<Student>() {
+
+            @Override
+            public int compare(Student s1, Student s2) {
+
+                return Integer.compare(s1.marks, s2.marks);
+
+            }
+        };
+
+        Collections.sort(students, marksComparator);
+
+        System.out.println("\nSorted By Marks");
+        System.out.println(students);
+
+        // Sort by Name
+        Comparator<Student> nameComparator = new Comparator<Student>() {
+
+            @Override
+            public int compare(Student s1, Student s2) {
+
+                return s1.name.compareTo(s2.name);
+
+            }
+        };
+
+        Collections.sort(students, nameComparator);
+
+        System.out.println("\nSorted By Name");
+        System.out.println(students);
+
+        // Sort by Age
+        Comparator<Student> ageComparator = new Comparator<Student>() {
+
+            @Override
+            public int compare(Student s1, Student s2) {
+
+                return Integer.compare(s1.age, s2.age);
+
+            }
+        };
+
+        Collections.sort(students, ageComparator);
+
+        System.out.println("\nSorted By Age");
+        System.out.println(students);
+    }
+}
+```
+
+---
+
+# Output
+
+```text
+Original List
+
+[101 Rahul 90 22,
+102 Amit 75 20,
+103 Neha 90 19,
+104 Priya 60 21]
+
+
+Sorted By Marks
+
+[104 Priya 60 21,
+102 Amit 75 20,
+101 Rahul 90 22,
+103 Neha 90 19]
+
+
+Sorted By Name
+
+[102 Amit 75 20,
+103 Neha 90 19,
+104 Priya 60 21,
+101 Rahul 90 22]
+
+
+Sorted By Age
+
+[103 Neha 90 19,
+102 Amit 75 20,
+104 Priya 60 21,
+101 Rahul 90 22]
+```
+
+---
+
+# Let's Understand the Flow
+
+## Initial List
+
+```text
+Rahul 90 22
+Amit 75 20
+Neha 90 19
+Priya 60 21
+```
+
+---
+
+## 1) Sort by Marks
+
+Java executes:
+
+```java
+Collections.sort(students, marksComparator);
+```
+
+Java internally starts comparing students.
+
+### Comparison 1
+
+```java
+compare(Rahul, Amit)
+```
+
+Our code runs:
+
+```java
+Integer.compare(90, 75)
+```
+
+Returns:
+
+```text
+1
+```
+
+Meaning:
+
+```text
+Rahul comes AFTER Amit
+```
+
+---
+
+### Comparison 2
+
+```java
+compare(Amit, Priya)
+```
+
+Runs:
+
+```java
+Integer.compare(75, 60)
+```
+
+Returns:
+
+```text
+1
+```
+
+Meaning:
+
+```text
+Amit comes AFTER Priya
+```
+
+---
+
+### Comparison 3
+
+```java
+compare(Rahul, Neha)
+```
+
+Runs:
+
+```java
+Integer.compare(90, 90)
+```
+
+Returns:
+
+```text
+0
+```
+
+Meaning:
+
+```text
+Both have equal marks.
+```
+
+Eventually Java arranges them as:
+
+```text
+60
+
+↓
+
+75
+
+↓
+
+90
+
+↓
+
+90
+```
+
+Result:
+
+```text
+Priya
+Amit
+Rahul
+Neha
+```
+
+---
+
+## 2) Sort by Name
+
+Now Java executes:
+
+```java
+Collections.sort(students, nameComparator);
+```
+
+The comparison method is now:
+
+```java
+return s1.name.compareTo(s2.name);
+```
+
+### Comparison
+
+```java
+compare(Rahul, Amit)
+```
+
+Runs:
+
+```java
+"Rahul".compareTo("Amit")
+```
+
+Since **R** comes after **A**, it returns a positive value.
+
+Meaning:
+
+```text
+Rahul comes AFTER Amit
+```
+
+Another comparison:
+
+```java
+compare(Neha, Priya)
+```
+
+Runs:
+
+```java
+"Neha".compareTo("Priya")
+```
+
+Since **N** comes before **P**, it returns a negative value.
+
+Meaning:
+
+```text
+Neha comes BEFORE Priya
+```
+
+Final result:
+
+```text
+Amit
+Neha
+Priya
+Rahul
+```
+
+---
+
+## 3) Sort by Age
+
+Now Java executes:
+
+```java
+Collections.sort(students, ageComparator);
+```
+
+Comparison method:
+
+```java
+Integer.compare(s1.age, s2.age);
+```
+
+### Comparison
+
+```java
+compare(Rahul, Neha)
+```
+
+Runs:
+
+```java
+Integer.compare(22, 19)
+```
+
+Returns:
+
+```text
+1
+```
+
+Meaning:
+
+```text
+Rahul comes AFTER Neha
+```
+
+Another comparison:
+
+```java
+compare(Amit, Priya)
+```
+
+Runs:
+
+```java
+Integer.compare(20, 21)
+```
+
+Returns:
+
+```text
+-1
+```
+
+Meaning:
+
+```text
+Amit comes BEFORE Priya
+```
+
+Final result:
+
+```text
+Neha
+Amit
+Priya
+Rahul
+```
+
+---
+
+# Visual Flow
+
+```text
+               Student List
+                     │
+                     ▼
+      Rahul 90 22
+      Amit 75 20
+      Neha 90 19
+      Priya 60 21
+                     │
+                     ▼
+     Collections.sort(students, marksComparator)
+                     │
+                     ▼
+       compare(s1, s2)
+                     │
+                     ▼
+ Integer.compare(s1.marks, s2.marks)
+                     │
+                     ▼
+       Sorted by Marks
+                     │
+                     ▼
+     Collections.sort(students, nameComparator)
+                     │
+                     ▼
+       compare(s1, s2)
+                     │
+                     ▼
+    s1.name.compareTo(s2.name)
+                     │
+                     ▼
+       Sorted by Name
+                     │
+                     ▼
+     Collections.sort(students, ageComparator)
+                     │
+                     ▼
+       compare(s1, s2)
+                     │
+                     ▼
+ Integer.compare(s1.age, s2.age)
+                     │
+                     ▼
+        Sorted by Age
+```
+
+---
+
+# Key Point to Remember
+
+The **Student class never changes**.
+
+We simply create different **Comparator** objects:
+
+- `marksComparator` → Sort by marks
+- `nameComparator` → Sort by name
+- `ageComparator` → Sort by age
+
+This is the biggest advantage of **Comparator**—you can sort the same objects in multiple ways without modifying the class.
