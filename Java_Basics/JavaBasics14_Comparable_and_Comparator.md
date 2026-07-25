@@ -1743,3 +1743,425 @@ We simply create different **Comparator** objects:
 - `ageComparator` → Sort by age
 
 This is the biggest advantage of **Comparator**—you can sort the same objects in multiple ways without modifying the class.
+
+
+----
+
+# Examples :
+
+## 1. Student
+
+A Student can be sorted in many ways.
+
+Fields:
+
+```java
+class Student {
+    int rollNo;
+    String name;
+    int marks;
+    int age;
+}
+```
+
+## Comparable (Default Sorting)
+
+Sort by **Roll Number** (Natural Order)
+
+```java
+@Override
+public int compareTo(Student other) {
+    return Integer.compare(this.rollNo, other.rollNo);
+}
+```
+
+```java
+Collections.sort(students);
+```
+
+Output
+
+```text
+101
+102
+103
+104
+```
+
+---
+
+## Comparator (Custom Sorting)
+
+Sort by **Marks**
+
+```java
+Comparator<Student> marksComparator =
+        (s1, s2) -> Integer.compare(s1.marks, s2.marks);
+
+Collections.sort(students, marksComparator);
+```
+
+Output
+
+```text
+60
+75
+90
+95
+```
+
+---
+
+Sort by **Name**
+
+```java
+Comparator<Student> nameComparator =
+        (s1, s2) -> s1.name.compareTo(s2.name);
+
+Collections.sort(students, nameComparator);
+```
+
+Output
+
+```text
+Amit
+Neha
+Priya
+Rahul
+```
+
+---
+
+# 2. Employee
+
+Fields
+
+```java
+class Employee {
+    int employeeId;
+    String name;
+    double salary;
+    String department;
+}
+```
+
+## Comparable (Default Sorting)
+
+Sort by **Employee ID**
+
+```java
+@Override
+public int compareTo(Employee other) {
+    return Integer.compare(this.employeeId, other.employeeId);
+}
+```
+
+```java
+Collections.sort(employees);
+```
+
+Output
+
+```text
+101
+102
+103
+104
+```
+
+---
+
+## Comparator (Custom Sorting)
+
+Sort by **Salary**
+
+```java
+Comparator<Employee> salaryComparator =
+        (e1, e2) -> Double.compare(e1.salary, e2.salary);
+
+Collections.sort(employees, salaryComparator);
+```
+
+Output
+
+```text
+35000
+50000
+65000
+80000
+```
+
+---
+
+Sort by **Department**
+
+```java
+Comparator<Employee> deptComparator =
+        (e1, e2) -> e1.department.compareTo(e2.department);
+
+Collections.sort(employees, deptComparator);
+```
+
+Output
+
+```text
+Finance
+HR
+IT
+Sales
+```
+
+---
+
+# 3. Product
+
+Fields
+
+```java
+class Product {
+    int productId;
+    String name;
+    double price;
+    double rating;
+}
+```
+
+## Comparable (Default Sorting)
+
+Sort by **Product ID**
+
+```java
+@Override
+public int compareTo(Product other) {
+    return Integer.compare(this.productId, other.productId);
+}
+```
+
+```java
+Collections.sort(products);
+```
+
+Output
+
+```text
+1
+2
+3
+4
+```
+
+---
+
+## Comparator (Custom Sorting)
+
+Sort by **Price**
+
+```java
+Comparator<Product> priceComparator =
+        (p1, p2) -> Double.compare(p1.price, p2.price);
+
+Collections.sort(products, priceComparator);
+```
+
+Output
+
+```text
+299
+599
+899
+1299
+```
+
+---
+
+Sort by **Rating**
+
+```java
+Comparator<Product> ratingComparator =
+        (p1, p2) -> Double.compare(p1.rating, p2.rating);
+
+Collections.sort(products, ratingComparator);
+```
+
+Output
+
+```text
+3.8
+4.2
+4.5
+4.9
+```
+
+---
+
+# 4. Book
+
+Fields
+
+```java
+class Book {
+    int isbn;
+    String title;
+    int pages;
+    double price;
+}
+```
+
+## Comparable (Default Sorting)
+
+Sort by **ISBN**
+
+```java
+@Override
+public int compareTo(Book other) {
+    return Integer.compare(this.isbn, other.isbn);
+}
+```
+
+```java
+Collections.sort(books);
+```
+
+Output
+
+```text
+1001
+1002
+1003
+1004
+```
+
+---
+
+## Comparator (Custom Sorting)
+
+Sort by **Title**
+
+```java
+Comparator<Book> titleComparator =
+        (b1, b2) -> b1.title.compareTo(b2.title);
+
+Collections.sort(books, titleComparator);
+```
+
+Output
+
+```text
+Algorithms
+Core Java
+Python
+Spring
+```
+
+---
+
+Sort by **Price**
+
+```java
+Comparator<Book> priceComparator =
+        (b1, b2) -> Double.compare(b1.price, b2.price);
+
+Collections.sort(books, priceComparator);
+```
+
+Output
+
+```text
+399
+499
+599
+799
+```
+
+---
+
+# 5. Movie
+
+Fields
+
+```java
+class Movie {
+    int movieId;
+    String title;
+    double rating;
+    int duration;
+}
+```
+
+## Comparable (Default Sorting)
+
+Sort by **Movie ID**
+
+```java
+@Override
+public int compareTo(Movie other) {
+    return Integer.compare(this.movieId, other.movieId);
+}
+```
+
+```java
+Collections.sort(movies);
+```
+
+Output
+
+```text
+1
+2
+3
+4
+```
+
+---
+
+## Comparator (Custom Sorting)
+
+Sort by **Rating**
+
+```java
+Comparator<Movie> ratingComparator =
+        (m1, m2) -> Double.compare(m1.rating, m2.rating);
+
+Collections.sort(movies, ratingComparator);
+```
+
+Output
+
+```text
+3.9
+4.2
+4.6
+4.8
+```
+
+---
+
+Sort by **Duration**
+
+```java
+Comparator<Movie> durationComparator =
+        (m1, m2) -> Integer.compare(m1.duration, m2.duration);
+
+Collections.sort(movies, durationComparator);
+```
+
+Output
+
+```text
+120 mins
+145 mins
+160 mins
+180 mins
+```
+
+---
+
+# Summary
+
+| Class | Comparable (Default Sorting) | Comparator (Custom Sorting Examples) |
+|--------|------------------------------|--------------------------------------|
+| Student | Roll Number | Marks, Name, Age |
+| Employee | Employee ID | Salary, Department |
+| Product | Product ID | Price, Rating |
+| Book | ISBN | Title, Price |
+| Movie | Movie ID | Rating, Duration |
